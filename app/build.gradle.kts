@@ -18,7 +18,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 
     buildTypes {
@@ -36,6 +36,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
