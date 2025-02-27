@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -34,24 +35,27 @@ import gg.pignet.myworkoutapp.gson.Exercise
 @Composable
 fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity){
     LazyColumn(modifier = Modifier
-        .fillMaxSize(),
+        .fillMaxSize()
+        .background(SecondaryColor, RoundedCornerShape(32.dp))
+        .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(exercises){ exercise ->
 
-
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .height(100.dp),
+                .heightIn(min = 100.dp),
                 shape = RoundedCornerShape(12.dp),
-                elevation = 4.dp
+                elevation = 4.dp,
+                backgroundColor = SecondaryColor
             ){
+
                 Row(
                     modifier = Modifier.fillMaxSize()
                         .background(SecondaryColor)
                         .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     val resId = getDrawableResId(imageName = exercise.exercise_thumbnail)
                     if (resId != 0) {
@@ -65,10 +69,23 @@ fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity){
                     }
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    Column {
-                        Text(text = exercise.exercise_name, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Column(Modifier.weight(1.0F).fillMaxWidth()) {
+                        Text(text = exercise.exercise_name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
                         val weightText = if (exercise.weight_amount == null) "${exercise.amount_of_sets} sets x ${exercise.rep_range}" else "${exercise.amount_of_sets} sets x ${exercise.rep_range} x ${formatDouble(exercise.weight_amount)} lb"
-                        Text(text = weightText, fontSize = 14.sp, color = Color.Gray)
+                        Text(text = weightText, fontSize = 14.sp, color = Color.LightGray)
+                    }
+
+                    Spacer(modifier = Modifier.width(4.dp))
+
+                    val muscleGroupResId = getDrawableResId(exercise.muscle_group_image)
+                    if (muscleGroupResId != 0) {
+                        Image(
+                            painter = painterResource(id = muscleGroupResId),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(androidx.compose.foundation.shape.CircleShape)
+                        )
                     }
 
                 }
@@ -92,6 +109,11 @@ private fun getDrawableResId(imageName: String): Int {
         "exc_t_163_ronald" -> R.drawable.exc_t_163_ronald
         "exc_t_166_ronald" -> R.drawable.exc_t_166_ronald
         "exc_t_167_ronald" -> R.drawable.exc_t_167_ronald
+        "Muscle Groups 1" -> R.drawable.muscle_groups_1
+        "Muscle Groups 2" -> R.drawable.muscle_groups_2
+        "Muscle Groups 3" -> R.drawable.muscle_groups_3
+        "Muscle Groups 4" -> R.drawable.muscle_groups_4
+        "Muscle Groups 5" -> R.drawable.muscle_groups_5
         else -> R.drawable.exc_t_168_ronald
     }
 }
