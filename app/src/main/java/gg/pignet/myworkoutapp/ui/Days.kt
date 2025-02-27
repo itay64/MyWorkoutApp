@@ -1,9 +1,9 @@
 package gg.pignet.myworkoutapp.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -14,6 +14,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +29,23 @@ import androidx.compose.ui.unit.sp
 import gg.pignet.myworkoutapp.MainActivity
 import gg.pignet.myworkoutapp.color.BlueTextColor
 import gg.pignet.myworkoutapp.color.SecondaryColor
+import gg.pignet.myworkoutapp.gson.Exercise
+import gg.pignet.myworkoutapp.gson.JsonHandler
 import gg.pignet.myworkoutapp.gson.Workouts
 
 @Composable
-fun Days(workouts: Workouts?, activity: MainActivity){
+fun Days( activity: MainActivity){
+
+    var currentWorkout: List<Exercise> by remember { mutableStateOf(listOf()) }
+    var workouts by remember { mutableStateOf<Workouts?>(null) }
+
+    LaunchedEffect(Unit) {
+        JsonHandler.loadWorkouts(activity)?.let {
+            workouts = it
+            it.workouts.firstOrNull()?.workout?.let { currentWorkout = it }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,7 +61,7 @@ fun Days(workouts: Workouts?, activity: MainActivity){
             days.forEach { day ->
                 Button(
                     {
-                        Toast.makeText(activity, "You have clicked on Day $day", Toast.LENGTH_LONG).show()
+                        workouts?.let { workouts -> workouts.workouts.firstOrNull { it.day == day }?.workout?.let { currentWorkout = it } }
                     },
                     modifier = Modifier.height(44.dp).width(88.dp).padding(horizontal = 2.dp),
                     shape = RoundedCornerShape(32.dp),
@@ -63,4 +81,9 @@ fun Days(workouts: Workouts?, activity: MainActivity){
             }
         }
     }
+
+    Spacer(modifier = Modifier.height(32.dp))
+    WeekAndUpComingWorkoutTitle()
+    Spacer(modifier = Modifier.height(24.dp))
+    WorkoutContent(currentWorkout, activity)
 }

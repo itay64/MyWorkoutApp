@@ -17,7 +17,6 @@ import gg.pignet.myworkoutapp.gson.JsonHandler
 import gg.pignet.myworkoutapp.gson.Workouts
 import gg.pignet.myworkoutapp.ui.Days
 import gg.pignet.myworkoutapp.ui.TopScrollbar
-import gg.pignet.myworkoutapp.ui.WeekAndUpComingWorkoutTitle
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                var workouts by remember { mutableStateOf<Workouts?>(null) }
-                LaunchedEffect(Unit) { workouts = JsonHandler.loadWorkouts(this@MainActivity) }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = BackgroundColor
@@ -34,9 +31,8 @@ class MainActivity : AppCompatActivity() {
                 Column(modifier = Modifier.fillMaxSize()) {
                     TopScrollbar()
                     Spacer(modifier = Modifier.height(16.dp))
-                    Days(workouts, this@MainActivity)
-                    Spacer(modifier = Modifier.height(32.dp))
-                    WeekAndUpComingWorkoutTitle()
+                    Days(this@MainActivity)
+
                 }
             }
         }
