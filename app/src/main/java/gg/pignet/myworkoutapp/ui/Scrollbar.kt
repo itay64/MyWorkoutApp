@@ -32,21 +32,21 @@ fun TopScrollbar() {
         Row(
             modifier = Modifier
                 .horizontalScroll(scrollState)
-                .padding(8.dp)
+                .padding(6.dp)
         ) {
             val items = listOf(
-                "Muscles (16)", "45-60 Min", "Schedule",
-                "Basic Exercises", "Equipment (64)", "Goals (1)", "Refresh Plan"
+                "Muscles (16) ▼", "45-60 Min ▼", "Schedule ▼",
+                "Basic Exercises ▼", "Equipment (64) ▼", "Goals (1) ▼", "Refresh Plan ▼"
             )
 
             items.forEach { text ->
                 Text(
                     text = text,
                     modifier = Modifier
-                        .padding(horizontal = 6.dp)
-                        .background(SecondaryColor, shape = RoundedCornerShape(16.dp))
+                        .padding(horizontal = 8.dp)
+                        .background(SecondaryColor, shape = RoundedCornerShape(32.dp))
                         .padding(8.dp),
-                    fontSize = 16.sp,
+                    fontSize = 13.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
