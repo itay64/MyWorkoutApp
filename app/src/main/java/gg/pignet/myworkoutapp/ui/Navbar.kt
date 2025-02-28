@@ -42,7 +42,7 @@ fun BottomNavBar(navController: NavController) {
                         Icon(
                             painter = painterResource(id = item.icon),
                             contentDescription = item.label,
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(24.dp),
                             tint = if (selected) Color.Yellow else Color.White
                         )
                         Text(
