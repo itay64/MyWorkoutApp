@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gg.pignet.myworkoutapp.MainActivity
 import gg.pignet.myworkoutapp.color.BlueTextColor
+import gg.pignet.myworkoutapp.color.DaysNotClickedOn
 import gg.pignet.myworkoutapp.color.SecondaryColor
 import gg.pignet.myworkoutapp.gson.Exercise
 import gg.pignet.myworkoutapp.gson.JsonHandler
@@ -38,6 +39,7 @@ fun Days( activity: MainActivity){
 
     var currentWorkout: List<Exercise> by remember { mutableStateOf(listOf()) }
     var workouts by remember { mutableStateOf<Workouts?>(null) }
+    var clickedDay by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
         JsonHandler.loadWorkouts(activity)?.let {
@@ -58,22 +60,23 @@ fun Days( activity: MainActivity){
             modifier = Modifier.padding(6.dp)
         ){
             val days = workouts?.workouts?.map { it.day } ?: listOf(1, 2, 3 , 4)
-            days.forEach { day ->
+            days.forEachIndexed { index, day ->
                 Button(
                     {
+                        clickedDay = index
                         workouts?.let { workouts -> workouts.workouts.firstOrNull { it.day == day }?.workout?.let { currentWorkout = it } }
                     },
-                    modifier = Modifier.height(44.dp).width(88.dp).padding(horizontal = 2.dp),
+                    modifier = Modifier.height(48.dp).width(76.dp).padding(horizontal = 2.dp),
                     shape = RoundedCornerShape(32.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = SecondaryColor),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = if (clickedDay == index) SecondaryColor else DaysNotClickedOn),
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "Day $day",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
                         color = BlueTextColor,
-                        letterSpacing = 0.5.sp,
+                        letterSpacing = 0.1.sp,
                         maxLines = 1,
                         textAlign = TextAlign.Center
                     )

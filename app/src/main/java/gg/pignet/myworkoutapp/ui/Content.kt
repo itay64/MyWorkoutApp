@@ -3,13 +3,15 @@ package gg.pignet.myworkoutapp.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,63 +35,133 @@ import gg.pignet.myworkoutapp.color.SecondaryColor
 import gg.pignet.myworkoutapp.gson.Exercise
 
 @Composable
-fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity){
-    LazyColumn(modifier = Modifier
-        .fillMaxSize()
-        .background(SecondaryColor, RoundedCornerShape(32.dp))
-        .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp)
+            .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
     ) {
-        items(exercises){ exercise ->
-
-            Card(modifier = Modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .heightIn(min = 100.dp),
-                shape = RoundedCornerShape(12.dp),
-                elevation = 4.dp,
-                backgroundColor = SecondaryColor
-            ){
-
-                Row(
-                    modifier = Modifier.fillMaxSize()
-                        .background(SecondaryColor)
-                        .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                .fillMaxHeight()
+                .background(SecondaryColor, RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            item { ExerciseAmountTimeAndCalories(exercises.size) }
+            items(exercises) { exercise ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .heightIn(min = 100.dp),
+                    shape = RoundedCornerShape(32.dp),
+                    elevation = 0.dp,
+                    backgroundColor = SecondaryColor
                 ) {
-                    val resId = getDrawableResId(imageName = exercise.exercise_thumbnail)
-                    if (resId != 0) {
-                        Image(
-                            painter = painterResource(id = resId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(SecondaryColor)
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val resId = getDrawableResId(imageName = exercise.exercise_thumbnail)
+                        if (resId != 0) {
+                            Image(
+                                painter = painterResource(id = resId),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(Modifier.weight(1.0F).fillMaxWidth()) {
+                            Text(
+                                text = exercise.exercise_name,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            val weightText = if (exercise.weight_amount == null)
+                                "${exercise.amount_of_sets} sets x ${exercise.rep_range}"
+                            else
+                                "${exercise.amount_of_sets} sets x ${exercise.rep_range} x ${formatDouble(exercise.weight_amount)} lb"
+                            Text(text = weightText, fontSize = 14.sp, color = Color.LightGray)
+                        }
+                        Spacer(modifier = Modifier.width(4.dp))
+                        val muscleGroupResId = getDrawableResId(exercise.muscle_group_image)
+                        if (muscleGroupResId != 0) {
+                            Image(
+                                painter = painterResource(id = muscleGroupResId),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(androidx.compose.foundation.shape.CircleShape)
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Column(Modifier.weight(1.0F).fillMaxWidth()) {
-                        Text(text = exercise.exercise_name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                        val weightText = if (exercise.weight_amount == null) "${exercise.amount_of_sets} sets x ${exercise.rep_range}" else "${exercise.amount_of_sets} sets x ${exercise.rep_range} x ${formatDouble(exercise.weight_amount)} lb"
-                        Text(text = weightText, fontSize = 14.sp, color = Color.LightGray)
-                    }
-
-                    Spacer(modifier = Modifier.width(4.dp))
-
-                    val muscleGroupResId = getDrawableResId(exercise.muscle_group_image)
-                    if (muscleGroupResId != 0) {
-                        Image(
-                            painter = painterResource(id = muscleGroupResId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(androidx.compose.foundation.shape.CircleShape)
-                        )
-                    }
-
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+private fun ExerciseAmountTimeAndCalories(exerciseAmount: Int){
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp),
+        shape = RoundedCornerShape(32.dp),
+        elevation = 0.dp,
+        backgroundColor = SecondaryColor
+    ){
+        Row(
+            modifier = Modifier.offset(y = 6.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                painter = painterResource(getDrawableResId("workout_exercise_amount")),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
+            Text(
+                text = "$exerciseAmount Exercises",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Spacer(Modifier.width(8.dp))
+            Image(
+                painter = painterResource(getDrawableResId("workout_time")),
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(Modifier.width(2.dp))
+            Text(
+                text = "${exerciseAmount * 9} Min",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Spacer(Modifier.width(8.dp))
+            Image(
+                painter = painterResource(getDrawableResId("workout_calories")),
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(Modifier.width(2.dp))
+            Text(
+                text = "${exerciseAmount * 45} cal",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
         }
     }
 }
@@ -114,6 +186,9 @@ private fun getDrawableResId(imageName: String): Int {
         "Muscle Groups 3" -> R.drawable.muscle_groups_3
         "Muscle Groups 4" -> R.drawable.muscle_groups_4
         "Muscle Groups 5" -> R.drawable.muscle_groups_5
+        "workout_calories" -> R.drawable.workout_calories
+        "workout_exercise_amount" -> R.drawable.workout_exercise_amount
+        "workout_time" -> R.drawable.workout_time
         else -> R.drawable.exc_t_168_ronald
     }
 }
