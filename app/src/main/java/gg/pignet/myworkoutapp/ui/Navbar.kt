@@ -18,10 +18,10 @@ import gg.pignet.myworkoutapp.color.SecondaryColor
 @Composable
 fun BottomNavBar(navController: NavController) {
     val items = listOf(
-        NavItem("My Workout", R.drawable.workout_calories, "workout"),
-        NavItem("Exercises", R.drawable.workout_exercise_amount, "exercises"),
-        NavItem("Progress", R.drawable.workout_time, "progress"),
-        NavItem("Settings", R.drawable.workout_calories, "settings")
+        NavItem("My Workout", R.drawable.workout, "workout"),
+        NavItem("Exercises", R.drawable.exercises, "exercises"),
+        NavItem("Progress", R.drawable.progress, "progress"),
+        NavItem("Settings", R.drawable.settings, "settings")
     )
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
