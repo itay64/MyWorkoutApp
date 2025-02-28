@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gg.pignet.myworkoutapp.MainActivity
@@ -84,13 +85,14 @@ fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity) {
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(Modifier.weight(1.0F).fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy((-12).dp)
+                            verticalArrangement = Arrangement.spacedBy((-2).dp)
                         ) {
                             Text(
                                 text = exercise.exercise_name,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = Color.White,
+                                style = TextStyle(lineHeight = 16.sp)
                             )
                             val weightText = if (exercise.weight_amount == null)
                                 "${exercise.amount_of_sets} sets x ${exercise.rep_range}"
