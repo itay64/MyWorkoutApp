@@ -87,6 +87,6 @@ fun Days( activity: MainActivity){
 
     Spacer(modifier = Modifier.height(32.dp))
     WeekAndUpComingWorkoutTitle()
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(16.dp))
     WorkoutContent(currentWorkout, activity)
 }
