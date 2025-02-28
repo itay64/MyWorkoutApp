@@ -28,7 +28,7 @@ fun StartWorkoutButton(
     Button(
         onClick = {},
         modifier = modifier
-            .width(344.dp)
+            .width(316.dp)
             .height(72.dp)
             .background(gradient, RoundedCornerShape(12.dp)),
         elevation = null,

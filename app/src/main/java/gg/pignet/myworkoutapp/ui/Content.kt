@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gg.pignet.myworkoutapp.MainActivity
@@ -89,7 +88,7 @@ fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity) {
                         ) {
                             Text(
                                 text = exercise.exercise_name,
-                                fontSize = 14.sp,
+                                fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                                 style = TextStyle(lineHeight = 16.sp)
@@ -98,7 +97,7 @@ fun WorkoutContent(exercises: List<Exercise>, activity: MainActivity) {
                                 "${exercise.amount_of_sets} sets x ${exercise.rep_range}"
                             else
                                 "${exercise.amount_of_sets} sets x ${exercise.rep_range} x ${formatDouble(exercise.weight_amount)} lb"
-                            Text(text = weightText, fontSize = 14.sp, color = Color.LightGray)
+                            Text(text = weightText, fontSize = 13.sp, color = Color.LightGray)
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         val muscleGroupResId = getDrawableResId(exercise.muscle_group_image)
