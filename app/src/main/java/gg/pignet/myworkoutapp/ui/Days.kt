@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,7 +42,7 @@ fun Days( activity: MainActivity){
 
     var currentWorkout: List<Exercise> by remember { mutableStateOf(listOf()) }
     var workouts by remember { mutableStateOf<Workouts?>(null) }
-    var clickedDay by remember { mutableStateOf(0) }
+    var clickedDay by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         JsonHandler.loadWorkouts(activity)?.let {
@@ -75,7 +76,7 @@ fun Days( activity: MainActivity){
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "Day $day",
-                        fontSize = 12.sp,
+                        fontSize = 12.5.sp,
                         fontWeight = FontWeight.Medium,
                         color = BlueTextColor,
                         letterSpacing = 0.1.sp,
@@ -96,9 +97,9 @@ fun Days( activity: MainActivity){
         modifier = Modifier.fillMaxSize()
     ) {
         FloatingActionButton(
-            onClick = { /* Handle button click here */ },
+            onClick = { },
             modifier = Modifier
-                .align(Alignment.BottomEnd) // Position at the bottom-right
+                .align(Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
             Text(
