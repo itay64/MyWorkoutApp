@@ -30,7 +30,7 @@ fun WeekAndUpComingWorkoutTitle() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(1.dp)
+        verticalArrangement = Arrangement.spacedBy((-16).dp)
     ) {
         Text(
             text = "Week 1/5 - Foundations",
@@ -47,7 +47,7 @@ fun WeekAndUpComingWorkoutTitle() {
             Text(
                 text = "UPCOMING WORKOUT",
                 color = Color.White,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.ExtraBold,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier.align(Alignment.Center)
@@ -62,7 +62,7 @@ fun WeekAndUpComingWorkoutTitle() {
                 modifier = Modifier
                     .align(Alignment.CenterEnd) // This makes the icon go to the right side
                     .background(SecondaryColor, RoundedCornerShape(12.dp))
-                    .size(40.dp),
+                    .size(48.dp),
                 tint = Color.White
             )
         }
